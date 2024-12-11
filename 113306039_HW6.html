@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>113306039_HW6_1A2B</title>
+</head>
+<body>
+	<h1>113306039_HW6_1A2B</h1>
+	<input type = "text" id = "inputField" placeholder = "輸入4個不重複數字" >
+	<button onclick = "checkGuess()">猜！</button>
+	<div id = "results"></div>
+	<script>
+	 	var nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+     	var answer = []; // 創建空的array以儲存答案
+     	var attempts = 0;
+        while (answer.length < 4) {
+            var index = Math.floor(Math.random() * nums.length);
+            answer.push(nums[index]); //將random number加入answer array
+            nums.splice(index, 1); //刪除nums中已選過的數字(數字不能重複)
+        }
+
+        //按猜按鈕時會觸發這個function
+		function checkGuess() {
+            var inputField = document.getElementById("inputField");
+            var guess = inputField.value.split(""); // 將輸入轉成array
+            if (guess.length !== 4) {
+                alert("請輸入 4 個數字！");
+                return;
+            }
+            if (new Set(guess).size !== 4) {
+                alert("數字不能重複！");
+                return;
+            }
+            attempts++;
+            var a = 0;
+            var b = 0;
+            for (var i = 0; i < guess.length; i++) {
+                if (guess[i] === answer[i]) {
+                    a++; //(位置)
+                } else if (answer.includes(guess[i])) {
+                    b++; //(數字)
+                }
+            }
+
+            var resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML += "<p>" + guess.join("") + ": " + a + "A" + b + "B</p>";
+            if (a === 4) {
+                alert("恭喜答對！總共猜了 " + attempts + " 次。");
+            }
+            inputField.value = "";
+        }
+	</script>
+</body>
+</html>
